@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме — Котчетов Андрей Владимирович</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #333;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ===== НАВИГАЦИЯ-ТАБЫ ===== */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 0;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 14px 36px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 16px 16px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: #302b63;
+            box-shadow: 0 -4px 20px rgba(99, 88, 220, 0.3);
+        }
+
+        /* ===== СТРАНИЦА ===== */
+        .page {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+            overflow: hidden;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== ШАПКА РЕЗЮМЕ ===== */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px 60px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            font-weight: 300;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .contact-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+        }
+
+        .contact-item .icon {
+            font-size: 16px;
+        }
+
+        /* ===== КОНТЕНТ ===== */
+        .content {
+            padding: 50px 60px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #302b63;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, transparent);
+            border-radius: 3px;
+        }
+
+        .section-title .icon {
+            font-size: 24px;
+        }
+
+        /* О себе */
+        .about-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            background: linear-gradient(135deg, #f8f9ff, #f0f0ff);
+            padding: 24px 28px;
+            border-radius: 14px;
+            border-left: 4px solid #667eea;
+        }
+
+        /* Опыт работы */
+        .experience-card {
+            background: #fafbff;
+            border-radius: 14px;
+            padding: 28px;
+            border: 1px solid #e8e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .exp-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #302b63;
+        }
+
+        .exp-company {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .exp-date {
+            font-size: 13px;
+            color: #fff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .exp-list {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .exp-list li {
+            font-size: 14px;
+            color: #555;
+            padding: 6px 0 6px 24px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .exp-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Навыки */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .skills-column h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #764ba2;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            color: #302b63;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            margin: 0 6px 10px 0;
+            border: 1px solid #667eea30;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Образование */
+        .edu-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #fafbff;
+            padding: 24px 28px;
+            border-radius: 14px;
+            border: 1px solid #e8e8f0;
+        }
+
+        .edu-icon {
+            font-size: 40px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .edu-info h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #302b63;
+        }
+
+        .edu-info p {
+            font-size: 14px;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        /* Доп инфо */
+        .extra-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .extra-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #555;
+            padding: 14px 20px;
+            background: #fafbff;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .extra-item:hover {
+            border-color: #667eea;
+            background: #f0f0ff;
+        }
+
+        .extra-item .icon {
+            font-size: 20px;
+        }
+
+        /* ===== СОПРОВОДИТЕЛЬНОЕ ПИСЬМО ===== */
+        .letter-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 50px 60px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        .letter-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+        }
+
+        .letter-header .subtitle {
+            font-size: 15px;
+            font-weight: 300;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .letter-content {
+            padding: 50px 60px;
+        }
+
+        .letter-content p {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .letter-content .greeting {
+            font-size: 17px;
+            font-weight: 600;
+            color: #302b63;
+            margin-bottom: 24px;
+        }
+
+        .letter-content .signature {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 2px solid #eee;
+        }
+
+        .letter-content .signature p {
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .letter-content .signature .name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #302b63;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            padding: 20px 24px;
+            border-radius: 12px;
+            border-left: 4px solid #38ef7d;
+            margin: 20px 0;
+        }
+
+        /* ===== ФУТЕР ===== */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        /* ===== ПЕЧАТЬ ===== */
+        .print-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102,126,234,0.5);
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+            .tabs, .print-btn, .footer {
+                display: none !important;
+            }
+            .page {
+                display: block !important;
+                box-shadow: none;
+                margin-bottom: 40px;
+                page-break-after: always;
+            }
+            .header, .letter-header {
+                padding: 30px 40px;
+            }
+            .content, .letter-content {
+                padding: 30px 40px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .header, .content, .letter-header, .letter-content {
+                padding: 30px 24px;
+            }
+            .header h1, .letter-header h1 {
+                font-size: 22px;
+            }
+            .skills-grid, .extra-list {
+                grid-template-columns: 1fr;
+            }
+            .exp-header {
+                flex-direction: column;
+            }
+            .tabs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tab-btn {
+                border-radius: 12px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ТАБЫ -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('resume')">📄 Резюме</button>
+            <button class="tab-btn" onclick="switchTab('letter')">✉️ Сопроводительное письмо</button>
+        </div>
+
+        <!-- ==================== РЕЗЮМЕ ==================== -->
+        <div class="page active" id="resume">
+            <div class="header">
+                <h1>Котчетов Андрей Владимирович</h1>
+                <div class="subtitle">Студент · Юриспруденция · Помощник юриста</div>
+                <div class="contact-bar">
+                    <div class="contact-item">
+                        <span class="icon">📅</span> 25.07.2007
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📍</span> г. Москва
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📞</span> +7 (___) ___-__-__
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">✉️</span> email@example.com
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+
+                <!-- О СЕБЕ -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">🎯</span> О себе
+                    </div>
+                    <div class="about-text">
+                        Целеустремлённый и ответственный студент направления «Юриспруденция». 
+                        К любой поставленной задаче подхожу добросовестно и с полной отдачей. 
+                        Строго соблюдаю дедлайны и умею грамотно расставлять приоритеты. 
+                        Легко нахожу общий язык с людьми, открыт к новому опыту и готов 
+                        развиваться в профессиональной среде. Уверенный пользователь ПК: 
+                        пакет MS&nbsp;Office, правовые системы «КонсультантПлюс» и «Гарант», 
+                        базовая работа с электронным документооборотом.
+                    </div>
+                </div>
+
+                <!-- ОПЫТ РАБОТЫ -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">💼</span> Опыт работы
+                    </div>
+                    <div class="experience-card">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-title">Помощник юриста (стажёр)</div>
+                                <div class="exp-company">Юридическая консультация «Правовой стандарт»</div>
+                            </div>
+                            <div class="exp-date">июнь 2024 — авг 2024</div>
+                        </div>
+                        <ul class="exp-list">
+                            <li>Подготовка и оформление юридических документов: заявления, жалобы, запросы</li>
+                            <li>Работа с правовыми базами данных — поиск и анализ нормативно-правовых актов и судебной практики</li>
+                            <li>Систематизация и архивирование договоров и клиентских дел</li>
+                            <li>Приём и первичная консультация граждан по общеправовым вопросам</li>
+                            <li>Подготовка проектов досудебных претензий под руководством куратора</li>
+                            <li>Составление реестров входящей и исходящей корреспонденции</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- НАВЫКИ -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">🛠</span> Ключевые навыки
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skills-column">
+                            <h4>Профессиональные</h4>
+                            <span class="skill-tag">КонсультантПлюс</span>
+                            <span class="skill-tag">Гарант</span>
+                            <span class="skill-tag">MS Office</span>
+                            <span class="skill-tag">Юридические документы</span>
+                            <span class="skill-tag">Делопроизводство</span>
+                            <span class="skill-tag">Грамотная речь</span>
+                            <span class="skill-tag">Правовой анализ</span>
+                        </div>
+                        <div class="skills-column">
+                            <h4>Личностные</h4>
+                            <span class="skill-tag">Адаптивность</span>
+                            <span class="skill-tag">Стрессоустойчивость</span>
+                            <span class="skill-tag">Упорство</span>
+                            <span class="skill-tag">Ответственность</span>
+                            <span class="skill-tag">Коммуникабельность</span>
+                            <span class="skill-tag">Пунктуальность</span>
+                            <span class="skill-tag">Внимание к деталям</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ОБРАЗОВАНИЕ -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">🎓</span> Образование
+                    </div>
+                    <div class="edu-card">
+                        <div class="edu-icon">🎓</div>
+                        <div class="edu-info">
+                            <h4>Юриспруденция (право и организация социального обеспечения)</h4>
+                            <p>Название учебного заведения — вставить</p>
+                            <p>📅 2023 — настоящее время</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ДОПОЛНИТЕЛЬНО -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">📌</span> Дополнительно
+                    </div>
+                    <div class="extra-list">
+                        <div class="extra-item">
+                            <span class="icon">🏆</span>
+                            Ответственный подход — от мелких поручений до серьёзных задач
+                        </div>
+                        <div class="extra-item">
+                            <span class="icon">📚</span>
+                            Постоянное самообразование в области права
+                        </div>
+                        <div class="extra-item">
+                            <span class="icon">🤝</span>
+                            Работаю как в команде, так и самостоятельно
+                        </div>
+                        <div class="extra-item">
+                            <span class="icon">⏰</span>
+                            Готов к гибкому графику и оперативной работе
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============== СОПРОВОДИТЕЛЬНОЕ ПИСЬМО ============== -->
+        <div class="page" id="letter">
+            <div class="letter-header">
+                <h1>✉️ Сопроводительное письмо</h1>
+                <div class="subtitle">Котчетов Андрей Владимирович · Соискатель</div>
+            </div>
+
+            <div class="letter-content">
+
+                <p class="greeting">Здравствуйте, уважаемый работодатель!</p>
+
+                <p>
+                    Меня зовут <strong>Андрей Котчетов</strong>, и я являюсь студентом направления 
+                    «Юриспруденция». Обращаюсь к Вам с искренним интересом к возможности 
+                    стать частью Вашей команды и внести свой вклад в работу компании.
+                </p>
+
+                <p>
+                    Несмотря на то что я нахожусь в начале своего профессионального пути, 
+                    я уже успел получить практический опыт в юридической сфере. В ходе 
+                    стажировки в юридической консультации я освоил работу с правовыми 
+                    базами данных, научился составлять юридические документы, вести 
+                    первичный приём граждан и работать с архивом дел. Этот опыт укрепил 
+                    моё желание развиваться именно в данной области.
+                </p>
+
+                <div class="highlight">
+                    <p style="margin-bottom: 0;">
+                        <strong>Мои главные принципы в работе:</strong> строгое соблюдение дедлайнов, 
+                        внимательность к деталям, ответственный подход к каждой задаче — 
+                        будь то подготовка документа или консультация клиента. Я быстро 
+                        адаптируюсь к новым условиям и не боюсь сложных задач.
+                    </p>
+                </div>
+
+                <p>
+                    Я уверенно владею персональным компьютером, работаю в пакете 
+                    MS&nbsp;Office, знаком с правовыми системами «КонсультантПлюс» и «Гарант». 
+                    Обладаю грамотной устной и письменной речью, что считаю одним из 
+                    ключевых качеств для работы в юридической сфере.
+                </p>
+
+                <p>
+                    Среди моих личных качеств хочу особо выделить <strong>адаптивность</strong>, 
+                    <strong>стрессоустойчивость</strong> и <strong>упорство</strong>. Я умею работать 
+                    как в команде, так и самостоятельно, легко нахожу общий язык с людьми 
+                    и всегда готов учиться новому.
+                </p>
+
+                <p>
+                    Буду рад возможности обсудить моё участие в работе Вашей компании 
+                    на личном собеседовании. Готов приступить к выполнению обязанностей 
+                    в удобные для Вас сроки.
+                </p>
+
+                <p>
+                    Благодарю за уделённое время и внимание к моей кандидатуре!
+                </p>
+
+                <div class="signature">
+                    <p>С уважением,</p>
+                    <p class="name">Котчетов Андрей Владимирович</p>
+                    <p style="color: #888; font-size: 14px;">📞 +7 (___) ___-__-__ &nbsp;|&nbsp; ✉️ email@example.com</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- КНОПКА ПЕЧАТИ -->
+        <button class="print-btn" onclick="window.print()">🖨️ Распечатать / Сохранить в PDF</button>
+
+        <div class="footer">
+            © 2025 · Котчетов А.В. · Резюме
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
